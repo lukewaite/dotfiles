@@ -5,7 +5,3 @@ export DEBIAN_FRONTEND=noninteractive
 sudo apt-get update > /dev/null
 sudo apt-get install -yy git zsh language-pack-en
 su -c "cd /home/vagrant/.dotfiles && ./setup" vagrant
-
-# install composer globally in /usr/local/bin
-curl -sS https://getcomposer.org/installer | php
-sudo mv composer.phar /usr/local/bin/composer
