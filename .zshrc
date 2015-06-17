@@ -1,11 +1,15 @@
 # If not in ssh, define the default user
 [[ -n "$SSH_CLIENT" ]] || export DEFAULT_USER="lwaite"
 
+# Override OSX Langugage of en_CA with en_US
+export LANG=en_US.utf-8
+
 # Add the ChefDK binaries to the beginning of the PATH
 export PATH=/opt/chefdk/bin:$PATH
 
 # INIT boot2docker if not in ssh
-[[ -n "$SSH_CLIENT" ]] || $(boot2docker shellinit)
+export DOCKER_HOST=tcp://192.168.22.10:2376
+[[ -n "$SSH_CLIENT" ]] || [[ $(boot2docker status) == "poweroff" ]] || $(boot2docker shellinit)
 
 # Init rbenv
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi

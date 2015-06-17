@@ -3,3 +3,12 @@ alias vup="vagrant up"
 
 tssh (){ ssh "$1" -t -- 'tmux attach || tmux' }
 tssh-put-config (){scp ~/.dotfiles/.tmux.conf $1:~/}
+
+alias resource="source ~/.zshrc"
+
+# Directories
+alias dev="cd ~/Development"
+alias emp="cd ~/Development/eventmatrix-platform"
+
+# Git
+alias gf="git fetch"
