@@ -1,4 +1,4 @@
-alias vssh="vagrant ssh -c 'tmux attach || tmux'"
+alias vssh="vagrant ssh -c \"cd $(pwd); exec ${SHELL:-sh}\""
 alias vup="vagrant up"
 
 tssh (){ ssh "$1" -t -- 'tmux attach || tmux' }
