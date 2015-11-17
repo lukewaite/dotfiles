@@ -11,4 +11,4 @@ alias dev="cd ~/Development"
 alias emp="cd ~/Development/eventmatrix-platform"
 
 # Git
-alias gf="git fetch"
+alias fig="docker-compose"

@@ -29,11 +29,17 @@ antigen bundle phing
 antigen bundle vagrant
 antigen bundle command-not-found
 antigen bundle docker
+antigen bundle virtualenv
+antigen bundle docker
+antigen bundle ~/.dotfiles/plugins/aws-keychain --no-local-clone
 
 antigen theme https://gist.github.com/lukewaite/883b8b92b327c6fd2bd4 agnoster
 
 antigen apply
 ### END ZSH / ANTIGEN SETUP ###
+
+# Load custom scripts into path
+export PATH="$HOME/.dotfiles/bin:$PATH"
 
 # Source aliases
 source $HOME/.dotfiles/.aliases
@@ -42,3 +48,26 @@ source $HOME/.dotfiles/.aliases
 if [ -f "$HOME/.profile" ]; then
     . "$HOME/.profile"
 fi
+
+# Init gulp completion
+eval "$(gulp --completion=zsh)"
+
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"
+
+export WORKON_HOME=~/.virtualenvs
+source /usr/local/bin/virtualenvwrapper.sh
+
+
+### Are we starting where there is a virtualenv available?
+virtualenv="$(pwd)/bin/activate"
+if [ -e "$virtualenv" ]
+then
+  echo "Detected a virtualenv in the startup directory and auto-sourcing";
+  source $virtualenv
+fi
+
+export NVM_DIR=~/.nvm
+source $(brew --prefix nvm)/nvm.sh
