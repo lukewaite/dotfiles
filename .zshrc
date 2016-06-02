@@ -7,9 +7,6 @@ export LANG=en_US.utf-8
 # Add the ChefDK binaries to the beginning of the PATH
 export PATH=/opt/chefdk/bin:$PATH
 
-# INIT boot2docker if not in ssh
-export DOCKER_HOST=tcp://192.168.22.10:2376
-[[ -n "$SSH_CLIENT" ]] || [[ $(boot2docker status) == "poweroff" ]] || $(boot2docker shellinit)
 
 # Init rbenv
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
@@ -31,6 +28,7 @@ antigen bundle command-not-found
 antigen bundle docker
 antigen bundle virtualenv
 antigen bundle docker
+antigen bundle z
 antigen bundle ~/.dotfiles/plugins/aws-keychain --no-local-clone
 
 antigen theme https://gist.github.com/lukewaite/883b8b92b327c6fd2bd4 agnoster
@@ -49,11 +47,6 @@ if [ -f "$HOME/.profile" ]; then
     . "$HOME/.profile"
 fi
 
-# Init gulp completion
-eval "$(gulp --completion=zsh)"
-
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
-
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
 
@@ -71,3 +64,16 @@ fi
 
 export NVM_DIR=~/.nvm
 source $(brew --prefix nvm)/nvm.sh
+
+autoload -U add-zsh-hook
+load-nvmrc() {
+  if [[ -f .nvmrc && -r .nvmrc ]]; then
+    nvm use
+  fi
+}
+add-zsh-hook chpwd load-nvmrc
+
+# Init gulp completion
+eval "$(gulp --completion=zsh)"
+
+export LAMBDASH_FUNCTION=lambdash-function-1X5SMEP41A4BY

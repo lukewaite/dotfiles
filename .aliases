@@ -1,10 +1,10 @@
 alias vssh="vagrant ssh -c \"cd $(pwd); exec ${SHELL:-sh}\""
 alias vup="vagrant up"
 
-tssh (){ ssh "$1" -t -- 'tmux attach || tmux' }
+tssh (){ ssh "$1" -t -- 'tmux -CC attach || tmux -CC' }
 tssh-put-config (){scp ~/.dotfiles/.tmux.conf $1:~/}
 
-alias resource="source ~/.zshrc"
+alias refresh="source ~/.zshrc"
 
 # Directories
 alias dev="cd ~/Development"
