@@ -76,4 +76,8 @@ add-zsh-hook chpwd load-nvmrc
 # Init gulp completion
 eval "$(gulp --completion=zsh)"
 
+# Init artisan completion
+source $HOME/.dotfiles/plugins/laravel
+
 export LAMBDASH_FUNCTION=lambdash-function-1X5SMEP41A4BY
+export PATH="/usr/local/sbin:$PATH"

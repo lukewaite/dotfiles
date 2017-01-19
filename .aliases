@@ -4,11 +4,11 @@ alias vup="vagrant up"
 tssh (){ ssh "$1" -t -- 'tmux -CC attach || tmux -CC' }
 tssh-put-config (){scp ~/.dotfiles/.tmux.conf $1:~/}
 
-alias refresh="source ~/.zshrc"
+alias resource="source ~/.zshrc"
 
 # Directories
 alias dev="cd ~/Development"
 alias emp="cd ~/Development/eventmatrix-platform"
 
-# Git
-alias fig="docker-compose"
+# Docker 
+alias dc="docker-compose"

@@ -6,20 +6,35 @@
 	excludesfile = /Users/lwaite/.gitignore_global
 [push]
 	default = simple
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
-[mergetool "sourcetree"]
-	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
 [help]
 	autocorrect = 10
 [alias]
-	exclude = !sh -c 'echo "$1" >> .git/info/exclude' -
-    alias = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\t=> \\2/' | sort
+    exclude = !sh -c 'echo "$1" >> .git/info/exclude' -
+    alias = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\t=> \\2/' | sort
     ignore=!([ ! -e .gitignore ] && touch .gitignore) | echo $1 >>.gitignore
     cm  = commit -m
     cma = commit -a -m
     a = add
     master = checkout master
+    staging = checkout staging
     amend = !git log -n 1 --pretty=tformat:%s%n%n%b | git commit -F - --amend
+    branch-name = "!git rev-parse --abbrev-ref HEAD"
+    publish = "!git push -u origin $(git branch-name)"
+    mkstaging = "!git checkout staging && git pull && git checkout - && git checkout -b $(git branch-name)_STAGING && git rebase -i origin/staging"
+    mr = "!sh ~/.dotfiles/git-create-mr.sh"
+    feature = !git checkout $(git branch-name | perl -n -e'/([A-Za-z\\-\\_]+)_STAGING/ && print $1')
+[diff]
+	tool = Kaleidoscope
+[difftool "Kaleidoscope"]
+	cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
+[mergetool "Kaleidoscope"]
+	cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
+	trustexitcode = true
+[merge]
+	tool = Kaleidoscope
+[difftool]
+	prompt = false
+[mergetool]
+	prompt = false
+[branch]
+	autosetuprebase = always
