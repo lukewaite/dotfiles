@@ -22,4 +22,8 @@ if [[ "$branch" == *STAGING ]]; then
     target="staging"
 fi
 
-open "https://$server/$group/$project/merge_requests/new?merge_request%5Bsource_branch%5D=$branch&merge_request%5Btarget_branch%5D=$target"
+if [[ "$server" == github.com ]]; then
+    open "https://$server/$group/$project/compare/$target...$branch"
+else
+    open "https://$server/$group/$project/merge_requests/new?merge_request%5Bsource_branch%5D=$branch&merge_request%5Btarget_branch%5D=$target"
+fi
