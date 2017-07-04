@@ -25,5 +25,9 @@ fi
 if [[ "$server" == github.com ]]; then
     open "https://$server/$group/$project/compare/$target...$branch"
 else
-    open "https://$server/$group/$project/merge_requests/new?merge_request%5Bsource_branch%5D=$branch&merge_request%5Btarget_branch%5D=$target"
+    if [[ "$target" == master ]]; then
+        open "https://$server/$group/$project/merge_requests/new?merge_request%5Bsource_branch%5D=$branch&merge_request%5B"
+    else
+        open "https://$server/$group/$project/merge_requests/new?merge_request%5Bsource_branch%5D=$branch&merge_request%5Btarget_branch%5D=$target"
+    fi
 fi
