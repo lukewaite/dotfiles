@@ -140,18 +140,43 @@ prompt_newline() {
     print -n "\n"
 }
 
+prompt_begin_line1() {
+	print -n "╭─"
+}
+
+prompt_begin_line2() {
+	print -n "╰─$"
+}
+
+prompt_dockermachine() {
+  if [[ -n "$DOCKER_MACHINE_NAME" ]]; then
+	prompt_segment blue black " $DOCKER_MACHINE_NAME "
+  fi
+}
+
+prompt_terraform() {
+  if [ -d .terraform ]; then
+    local WORKSPACE=`terraform workspace show 2> /dev/null`
+    prompt_segment blue black " T:[$WORKSPACE]"
+  fi
+}
+
 ## Main prompt
 prompt_agnoster_main() {
   RETVAL=$?
   CURRENT_BG='NONE'
+  prompt_begin_line1
+  prompt_status
   prompt_virtualenv
   prompt_context
   prompt_dir
   prompt_git
   prompt_rubyver
+  prompt_dockermachine
+  prompt_terraform
   prompt_end
   prompt_newline
-  prompt_status
+  prompt_begin_line2
   prompt_end
 }
 

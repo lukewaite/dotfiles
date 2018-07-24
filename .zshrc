@@ -12,15 +12,16 @@ export LANG=en_US.utf-8
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 #### START ZSH / ANTIGEN SETUP ###
-source ~/.dotfiles/antigen/antigen.zsh
+source ~/.dotfiles/antigen.zsh
 #
 antigen use oh-my-zsh
 
 antigen bundle composer
 antigen bundle docker
+antigen bundle terraform
 antigen bundle z
 
-antigen theme https://gist.github.com/lukewaite/883b8b92b327c6fd2bd4 agnoster
+antigen bundle $HOME/.dotfiles luke.zsh-theme --no-local-clone
 
 antigen apply
 #### END ZSH / ANTIGEN SETUP ###
@@ -36,16 +37,7 @@ if [ -f "$HOME/.profile" ]; then
     . "$HOME/.profile"
 fi
 
-export NVM_DIR=~/.nvm
-source $(brew --prefix nvm)/nvm.sh
-
 autoload -U add-zsh-hook
-load-nvmrc() {
-  if [[ -f .nvmrc && -r .nvmrc ]]; then
-    nvm use
-  fi
-}
-add-zsh-hook chpwd load-nvmrc
 
 # Init gulp completion
 eval "$(gulp --completion=zsh)"
@@ -54,3 +46,28 @@ eval "$(gulp --completion=zsh)"
 source $HOME/.dotfiles/plugins/laravel
 
 export PATH="/usr/local/sbin:$PATH"
+
+export PATH="$HOME/.yarn/bin:$PATH"
+
+#export NVM_DIR="$HOME/.nvm"
+#[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+#[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+#[[ -s "$HOME/.avn/bin/avn.sh" ]] && source "$HOME/.avn/bin/avn.sh" # load avn
+
+
+
+export PATH="/usr/local/opt/python/libexec/bin:$PATH"
+
+
+# virtualenv
+#export WORKON_HOME=~/virtualenvs
+#source /usr/local/bin/virtualenvwrapper.sh
+
+export PATH="/usr/local/bin:$PATH"
+
+
+
+. $HOME/.asdf/asdf.sh
+
+. $HOME/.asdf/completions/asdf.bash
