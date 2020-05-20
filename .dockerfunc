@@ -1,0 +1,28 @@
+export DOCKER_REPO_PREFIX=lukewaite
+
+aws(){
+	docker run -it --rm \
+		-v "${HOME}/.aws:/root/.aws" \
+		-v "${HOME}/Downloads:/root/Downloads" \
+		--log-driver none \
+		--name aws \
+		${DOCKER_REPO_PREFIX}/awscli "$@"
+}
+
+aws-shell(){
+	docker run -it --rm \
+		-v "${HOME}/.aws:/root/.aws" \
+		-v "${HOME}/Downloads:/root/Downloads" \
+		--log-driver none \
+		--name aws-shell \
+		${DOCKER_REPO_PREFIX}/aws-shell "$@"
+}
+
+mssh(){
+	docker run -it --rm \
+		-v "${HOME}/.aws:/root/.aws" \
+		-v "${HOME}/.ssh/:/root/.ssh/" \
+		--log-driver none \
+		--name mssh \
+		${DOCKER_REPO_PREFIX}/aws-ec2-instance-connect-cli "$@"
+}

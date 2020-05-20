@@ -4,16 +4,12 @@
 # Override OSX Langugage of en_CA with en_US
 export LANG=en_US.utf-8
 
-# Add the ChefDK binaries to the beginning of the PATH
-#export PATH=/opt/chefdk/bin:$PATH
-
-
-# Init rbenv
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+# Add android dev stuff
+export PATH=${PATH}:/Users/lwaite/Library/Android/sdk/platform-tools:/Users/lwaite/Library/Android/sdk/tools:/Users/lwaite/Library/Android/sdk/cmdline-tools/latest/bin
 
 #### START ZSH / ANTIGEN SETUP ###
 source ~/.dotfiles/antigen.zsh
-#
+
 antigen use oh-my-zsh
 
 antigen bundle composer
@@ -29,45 +25,24 @@ antigen apply
 # Load custom scripts into path
 export PATH="$HOME/.dotfiles/bin:$PATH"
 
-# Source aliases
-source $HOME/.dotfiles/.aliases
-
-# npm and other tools write their inits into .profile, so we will load it if it's there
-if [ -f "$HOME/.profile" ]; then
-    . "$HOME/.profile"
-fi
-
 autoload -U add-zsh-hook
 
-# Init gulp completion
-eval "$(gulp --completion=zsh)"
 
 # Init artisan completion
 source $HOME/.dotfiles/plugins/laravel
 
 export PATH="/usr/local/sbin:$PATH"
 
-export PATH="$HOME/.yarn/bin:$PATH"
-
-#export NVM_DIR="$HOME/.nvm"
-#[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-#[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-#[[ -s "$HOME/.avn/bin/avn.sh" ]] && source "$HOME/.avn/bin/avn.sh" # load avn
-
-
-
-export PATH="/usr/local/opt/python/libexec/bin:$PATH"
-
-
-# virtualenv
-#export WORKON_HOME=~/virtualenvs
-#source /usr/local/bin/virtualenvwrapper.sh
-
 export PATH="/usr/local/bin:$PATH"
-
-
 
 . $HOME/.asdf/asdf.sh
 
-. $HOME/.asdf/completions/asdf.bash
+. "/Users/lwaite/.acme.sh/acme.sh.env"
+
+for file in $HOME/.dotfiles/.{profile,aliases,dockerfunc}; do
+	if [[ -r "$file" ]] && [[ -f "$file" ]]; then
+		# shellcheck source=/dev/null
+		source "$file"
+	fi
+done
+unset file
