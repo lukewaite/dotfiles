@@ -9,6 +9,17 @@ aws(){
 		${DOCKER_REPO_PREFIX}/awscli "$@"
 }
 
+aws2(){
+	docker run -it --rm \
+		-v "${HOME}/.aws:/root/.aws" \
+		-v "${HOME}/Downloads:/root/Downloads" \
+        -v "$(pwd):/root/aws-cli-workspace" \
+        -w "/root/aws-cli-workspace" \
+		--log-driver none \
+		--name aws-$(date "+%s")     \
+		amazon/aws-cli "$@"
+}
+
 aws-shell(){
 	docker run -it --rm \
 		-v "${HOME}/.aws:/root/.aws" \
@@ -18,6 +29,31 @@ aws-shell(){
 		${DOCKER_REPO_PREFIX}/aws-shell "$@"
 }
 
+eb(){
+	docker run -it --rm \
+		-v "${HOME}/.aws:/root/.aws" \
+		-v "${HOME}/.ssh/:/root/.ssh/" \
+		-v "${HOME}/Downloads:/root/Downloads" \
+		-v /var/run/docker.sock:/var/run/docker.sock \
+		-v "$(pwd):/root/aws-elasticbeanstalk-workspace" \
+		--log-driver none \
+		--name aws-elasticbeanstalk-$(date "+%s") \
+		${DOCKER_REPO_PREFIX}/aws-elasticbeanstalk "$@"
+}
+
+fargate(){
+	docker run -it --rm \
+		-v "${HOME}/.aws:/root/.aws" \
+		-v "${HOME}/.ssh/:/root/.ssh/" \
+		-v "${HOME}/Downloads:/root/Downloads" \
+		-v /var/run/docker.sock:/var/run/docker.sock \
+		-v "$(pwd):/root/aws-fargate-workspace" \
+		-e AWS_PROFILE=${AWS_PROFILE} \
+		--log-driver none \
+		--name aws-fargate-$(date "+%s") \
+		${DOCKER_REPO_PREFIX}/aws-fargate-cli "$@"
+}
+
 mssh(){
 	docker run -it --rm \
 		-v "${HOME}/.aws:/root/.aws" \
@@ -25,4 +61,16 @@ mssh(){
 		--log-driver none \
 		--name mssh \
 		${DOCKER_REPO_PREFIX}/aws-ec2-instance-connect-cli "$@"
+}
+
+sam(){
+	docker run -it --rm \
+		-v "${HOME}/.aws:/root/.aws" \
+		-v "${HOME}/.ssh/:/root/.ssh/" \
+		-v "${HOME}/Downloads:/root/Downloads" \
+		-v /var/run/docker.sock:/var/run/docker.sock \
+		-v "$(pwd):/root/aws-sam-workspace" \
+		--log-driver none \
+		--name aws-sam-$(date "+%s") \
+		${DOCKER_REPO_PREFIX}/aws-sam-cli "$@"
 }
