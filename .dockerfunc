@@ -4,8 +4,10 @@ aws(){
 	docker run -it --rm \
 		-v "${HOME}/.aws:/root/.aws" \
 		-v "${HOME}/Downloads:/root/Downloads" \
+        -v "$(pwd):/root/aws-workspace" \
+        -w "/root/aws-workspace" \
 		--log-driver none \
-		--name aws \
+		--name aws-$(date "+%s") \
 		${DOCKER_REPO_PREFIX}/awscli "$@"
 }
 
@@ -24,6 +26,8 @@ aws-shell(){
 	docker run -it --rm \
 		-v "${HOME}/.aws:/root/.aws" \
 		-v "${HOME}/Downloads:/root/Downloads" \
+        -v "$(pwd):/root/aws-workspace" \
+        -w "/root/aws-workspace" \
 		--log-driver none \
 		--name aws-shell \
 		${DOCKER_REPO_PREFIX}/aws-shell "$@"
@@ -59,18 +63,50 @@ mssh(){
 		-v "${HOME}/.aws:/root/.aws" \
 		-v "${HOME}/.ssh/:/root/.ssh/" \
 		--log-driver none \
-		--name mssh \
+		--name mssh-$(date "+%s") \
 		${DOCKER_REPO_PREFIX}/aws-ec2-instance-connect-cli "$@"
 }
 
+msftp(){
+        docker run -it --rm \
+                -v "${HOME}/.aws:/root/.aws" \
+                -v "${HOME}/.ssh/:/root/.ssh/" \
+                -v "${HOME}/Downloads:/root/Downloads" \
+		-w "/root/Downloads" \
+		--entrypoint msftp \
+                --log-driver none \
+                --name msftp-$(date "+%s") \
+                ${DOCKER_REPO_PREFIX}/aws-ec2-instance-connect-cli "$@"
+}
+
 sam(){
-	docker run -it --rm \
+	docker run -i --rm \
 		-v "${HOME}/.aws:/root/.aws" \
 		-v "${HOME}/.ssh/:/root/.ssh/" \
 		-v "${HOME}/Downloads:/root/Downloads" \
 		-v /var/run/docker.sock:/var/run/docker.sock \
-		-v "$(pwd):/root/aws-sam-workspace" \
+		-v "$(pwd):$(pwd)" \
+		-w "$(pwd)" \
+		-e AWS_PROFILE=${AWS_PROFILE} \
+		-e AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} \
 		--log-driver none \
 		--name aws-sam-$(date "+%s") \
 		${DOCKER_REPO_PREFIX}/aws-sam-cli "$@"
+}
+
+yq() {
+  docker run --rm -i -v "${PWD}":/workdir mikefarah/yq yq "$@"
+}
+
+xq() {
+  docker run --rm -i -v "${PWD}":/workdir -w /workdir alpine/xml xq "$@"
+}
+
+youtube-dl() {
+        docker run -it --rm \
+                -v "${HOME}/Downloads:/downloads" \
+		-w "/downloads" \
+                --log-driver none \
+                --name youtube-dl-$(date "+%s") \
+                ${DOCKER_REPO_PREFIX}/youtube-dl "$@"
 }
