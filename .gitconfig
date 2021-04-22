@@ -26,6 +26,7 @@
     mr = "!sh ~/.dotfiles/git-create-mr.sh"
     feature = !git checkout $(git branch-name | perl -n -e'/([A-Za-z0-9\\-\\_\\.\\/]+)_STAGING/ && print $1')
     revstaging = !COMMIT=$(git log -n 1 --format="%H") && git staging && git pull && git revert $COMMIT --no-edit && git push && git checkout - && git feature
+    recent-branches = "!git for-each-ref --sort=-committerdate refs/heads | less"
 [diff]
 	tool = Kaleidoscope
 [difftool "Kaleidoscope"]
