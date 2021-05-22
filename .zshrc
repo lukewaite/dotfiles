@@ -46,7 +46,7 @@ export PATH="/usr/local/sbin:$PATH"
 
 export PATH="/usr/local/bin:$PATH"
 
-. "/Users/lwaite/.acme.sh/acme.sh.env"
+[[ ! -f ~/.acme.sh/acme.sh.env ]] || source ~/.acme.sh/acme.sh.env
 
 for file in $HOME/.dotfiles/.{profile,aliases,dockerfunc}; do
 	if [[ -r "$file" ]] && [[ -f "$file" ]]; then
