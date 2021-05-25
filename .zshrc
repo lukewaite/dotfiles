@@ -27,7 +27,6 @@ antigen bundle docker
 antigen bundle terraform
 antigen bundle z
 
-# antigen bundle $HOME/.dotfiles luke.zsh-theme --no-local-clone
 antigen theme romkatv/powerlevel10k
 
 antigen apply
