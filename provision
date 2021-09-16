@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-export DEBIAN_FRONTEND=noninteractive
-
-# install zsh and run setup
-sudo apt-get update > /dev/null
-sudo apt-get install -yy git zsh language-pack-en
-su -c "cd /home/vagrant/.dotfiles && ./setup" vagrant

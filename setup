@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-export DEBIAN_FRONTEND=noninteractive
-
-ln -s /home/vagrant/.dotfiles/.zshrc /home/vagrant/.zshrc
-
-sudo chsh vagrant -s /bin/zsh
