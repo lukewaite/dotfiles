@@ -11,9 +11,6 @@ fi
 # Override OSX Langugage of en_CA with en_US
 export LANG=en_US.utf-8
 
-# Add android dev stuff
-export PATH=${PATH}:/Users/lwaite/Library/Android/sdk/platform-tools:/Users/lwaite/Library/Android/sdk/tools:/Users/lwaite/Library/Android/sdk/cmdline-tools/latest/bin
-
 source $HOME/.asdf/asdf.sh
 #source $HOME/.asdf/completions/asdf.bash
 
@@ -36,7 +33,6 @@ antigen apply
 export PATH="$HOME/.dotfiles/bin:$PATH"
 
 autoload -U add-zsh-hook
-
 
 export PATH="/usr/local/sbin:$PATH"
 
