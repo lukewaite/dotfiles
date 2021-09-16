@@ -38,9 +38,6 @@ export PATH="$HOME/.dotfiles/bin:$PATH"
 autoload -U add-zsh-hook
 
 
-# Init artisan completion
-source $HOME/.dotfiles/plugins/laravel
-
 export PATH="/usr/local/sbin:$PATH"
 
 export PATH="/usr/local/bin:$PATH"
