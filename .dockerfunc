@@ -1,6 +1,6 @@
 export DOCKER_REPO_PREFIX=lukewaite
 
-aws(){
+aws1(){
 	docker run -it --rm \
 		-v "${HOME}/.aws:/root/.aws" \
 		-v "${HOME}/Downloads:/root/Downloads" \
@@ -11,12 +11,31 @@ aws(){
 		${DOCKER_REPO_PREFIX}/awscli "$@"
 }
 
-aws2(){
+aws(){
 	docker run -it --rm \
 		-v "${HOME}/.aws:/root/.aws" \
+		-v "${HOME}/.kube:/root/.kube" \
 		-v "${HOME}/Downloads:/root/Downloads" \
         -v "$(pwd):/root/aws-cli-workspace" \
         -w "/root/aws-cli-workspace" \
+		--log-driver none \
+		--name aws-$(date "+%s")     \
+		amazon/aws-cli "$@"
+}
+
+aws-iamlive(){
+	docker run -it --rm \
+		-v "${HOME}/.iamlive/:/root/.iamlive/" \
+		-v "${HOME}/.aws:/root/.aws" \
+		-v "${HOME}/.kube:/root/.kube" \
+		-v "${HOME}/Downloads:/root/Downloads" \
+        -v "$(pwd):/root/aws-cli-workspace" \
+        -w "/root/aws-cli-workspace" \
+        -e HTTP_PROXY=http://host.docker.internal:10080 \
+        -e HTTPS_PROXY=http://host.docker.internal:10080 \
+        -e AWS_CA_BUNDLE=/root/.iamlive/ca.pem \
+        -e AWS_CSM_PORT=31000 \
+        -e AWS_CSM_HOST=host.docker.internal \
 		--log-driver none \
 		--name aws-$(date "+%s")     \
 		amazon/aws-cli "$@"
@@ -79,6 +98,15 @@ msftp(){
                 ${DOCKER_REPO_PREFIX}/aws-ec2-instance-connect-cli "$@"
 }
 
+nnn(){
+	docker run -it --rm \
+        -v "$(pwd):/volume" \
+        -w "/volume" \
+		--log-driver none \
+		--name nnn-$(date "+%s") \
+		${DOCKER_REPO_PREFIX}/nnn "$@"
+}
+
 sam(){
 	docker run -i --rm \
 		-v "${HOME}/.aws:/root/.aws" \
@@ -109,4 +137,14 @@ youtube-dl() {
                 --log-driver none \
                 --name youtube-dl-$(date "+%s") \
                 ${DOCKER_REPO_PREFIX}/youtube-dl "$@"
+}
+
+iamlive(){
+    docker run --rm \
+      -p 10080:10080 \
+	  -v "${HOME}/.iamlive/:/home/appuser/.iamlive/" \
+      --name iamlive \
+      -it ${DOCKER_REPO_PREFIX}/iamlive \
+      --mode proxy \
+      --bind-addr 0.0.0.0:10080
 }
