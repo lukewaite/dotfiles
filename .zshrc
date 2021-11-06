@@ -40,7 +40,7 @@ export PATH="/usr/local/bin:$PATH"
 
 [[ ! -f ~/.acme.sh/acme.sh.env ]] || source ~/.acme.sh/acme.sh.env
 
-for file in $HOME/.dotfiles/.{profile,aliases,dockerfunc}; do
+for file in $HOME/.dotfiles/.{profile,aliases,dockerfunc,iterm2_shell_integration.zsh}; do
 	if [[ -r "$file" ]] && [[ -f "$file" ]]; then
 		# shellcheck source=/dev/null
 		source "$file"
@@ -50,3 +50,5 @@ unset file
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.dotfiles/.p10k.zsh ]] || source ~/.dotfiles/.p10k.zsh
+
+eval "$(/opt/homebrew/bin/brew shellenv)"
