@@ -16,7 +16,11 @@ else
 fi
 
 
-target="master"
+if [[ "$server" == github.com ]]; then
+   target="main"
+else
+   target="master"
+fi
 
 if [[ "$branch" == *STAGING ]]; then
     target="staging"
