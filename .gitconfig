@@ -23,6 +23,7 @@
     branch-name = "!git rev-parse --abbrev-ref HEAD"
     publish = "!git push -u origin $(git branch-name)"
     mkstaging = "!( git branch -D $(git branch-name)_STAGING || true ) && git checkout staging && git pull && git checkout - && git checkout -b $(git branch-name)_STAGING && git rebase -i origin/staging"
+	mkstagingnew = "!~/.dotfiles/mkstaging.sh"
     mr = "!sh ~/.dotfiles/git-create-mr.sh"
     feature = !git checkout $(git branch-name | perl -n -e'/([A-Za-z0-9\\-\\_\\.\\/]+)_STAGING/ && print $1')
     revstaging = !COMMIT=$(git log -n 1 --format="%H") && git staging && git pull && git revert $COMMIT --no-edit && git push && git checkout - && git feature
