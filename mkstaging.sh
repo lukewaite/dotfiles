@@ -3,6 +3,6 @@
 git branch -D $(git branch-name)_STAGING || true
 git checkout staging && git pull && git checkout -
 git checkout -b $(git branch-name)_STAGING
-FIRST_COMMIT=$(git log origin/main..HEAD --no-merges --format=%H | wc -l | tr -d '[:blank:]')
-git rebase -i HEAD~${FIRST_COMMIT}
+FIRST_PARENT=$(diff -u <(git rev-list --first-parent $(git branch-name)) <(git rev-list --first-parent main) |  sed -ne 's/^ //p' | head -1)
+git rebase -i ${FIRST_PARENT}
 git rebase -i origin/staging
